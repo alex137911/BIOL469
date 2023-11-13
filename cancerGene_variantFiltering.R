@@ -13,6 +13,8 @@ suppressMessages(library(tidyr))
 suppressMessages(library(vcfR))
 suppressMessages(library(dplyr))
 suppressMessages(library(GenomicRanges))
+suppressMessages(library(caret))
+suppressMessages(library(glmnet)) # For logistic regression model
 
 # -------------------------------------------------------------------
 # Import MANE data
