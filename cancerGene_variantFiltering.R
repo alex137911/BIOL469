@@ -247,3 +247,11 @@ print(otherLevels)
 # -------------------------------------------------------------------
 # CLEAN DATASET
 cancerGenes_olapFinal <- subset(cancerGenes_olapVariants, select = -INFO)
+
+# Output directory
+outpath <- "C:/Users/acale/OneDrive/Documents/Waterloo BME/4A/BIOL 469/Final Project/BIOL469/Data/"
+outDir  <- sprintf("%s/Data/", dirname(outpath))
+if(!file.exists(outDir)) dir.create(outDir)
+
+write.table(cancerGenes_olapFinal, file = sprintf("%s/cancerGenes_olapFinal.tsv", outDir),
+            sep = "\t", row.names = FALSE, col.names = TRUE, quote = FALSE)
