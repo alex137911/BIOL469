@@ -1,6 +1,7 @@
 # Preliminary analysis of genes impacting cancers
 # Determine canonical transcripts of implicated cancer genes
 # Calculate promoter positions of these transcripts
+# Identify ClinVar variants overlapping promoter regions
 
 # Remove objects in workspace
 rm(list = ls())
