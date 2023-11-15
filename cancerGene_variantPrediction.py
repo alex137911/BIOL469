@@ -1,3 +1,6 @@
+# Random forest classifier to predict the clinical significance of cancer gene variants
+# K-fold cross-validation to evaluate the model
+
 import os
 import pandas as pd
 import joblib
