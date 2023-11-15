@@ -17,19 +17,28 @@ setwd(inDir)
 cancerGenes_olapFinal <- read_delim("cancerGenes_olapFinal.tsv", delim = "\t", escape_double = FALSE, trim_ws = TRUE)
 
 # -------------------------------------------------------------------
+# Renaming values in the clinicalSignificance column
+cancerGenes_olapFinal <- cancerGenes_olapFinal %>%
+  mutate(clinicalSignificance = case_when(
+    clinicalSignificance == "Likely_benign" ~ "Likely Benign",
+    clinicalSignificance == "Benign/Likely_benign" ~ "Benign/Likely Benign",
+    clinicalSignificance == "Likely_pathogenic" ~ "Likely Pathogenic",
+    clinicalSignificance == "Pathogenic/Likely_pathogenic" ~ "Pathogenic/Likely Pathogenic",
+    TRUE ~ clinicalSignificance  # Keeps all other values as they are
+  ))
+
 # Calculate frequencies
 cancerGenes_olapFinal$Count <- 1
 aggregateData <- aggregate(Count ~ generalOntology + clinicalSignificance + cancer, 
                            data = cancerGenes_olapFinal, FUN = sum)
-
 # Convert factors
 aggregateData$generalOntology      <- factor(aggregateData$generalOntology)
 aggregateData$clinicalSignificance <- factor(aggregateData$clinicalSignificance)
 aggregateData$cancer               <- factor(aggregateData$cancer)
 
 # Define fixed positions for each clinicalSignificance level
-significance_levels <- c("Benign", "Benign/Likely_benign", "Likely_benign", 
-                         "Likely_pathogenic", "Pathogenic/Likely_pathogenic", "Pathogenic")
+significance_levels <- c("Benign", "Benign/Likely Benign", "Likely Benign", 
+                         "Likely Pathogenic", "Pathogenic/Likely Pathogenic", "Pathogenic")
 # Increment for spacing
 increment = 0.5
 significance_positions <- setNames(seq(from = 1, by = increment, 
@@ -67,6 +76,6 @@ ggplot(adjustedData, aes(x = Position, y = generalOntology, size = Count, color 
         # Light border around each panel
         panel.border = element_rect(colour = "grey", fill = NA, linewidth = 0.5)) +  
   labs(y = "Mutation Class", size = "Frequency", color = "Clinical Significance") +
-  scale_color_manual(values = c("Benign" = "#77DA94", "Benign/Likely_benign" = "#80DFE1", 
-                                "Likely_benign" = "#AFCCFF", "Likely_pathogenic" = "#FAB0F1",
-                                "Pathogenic/Likely_pathogenic" = "#D8CC77", "Pathogenic" = "#FAAEA8"))
+  scale_color_manual(values = c("Benign" = "#77DA94", "Benign/Likely Benign" = "#80DFE1", 
+                                "Likely Benign" = "#AFCCFF", "Likely Pathogenic" = "#FAB0F1",
+                                "Pathogenic/Likely Pathogenic" = "#D8CC77", "Pathogenic" = "#FAAEA8"))
